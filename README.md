@@ -34,6 +34,47 @@ conda deactivate
 ```
 
 
+## Contributing
+
+Want to contribute to our project? Great! Start by making an issue describing in detail the problem you'd like to address or feature you'd like to see added. Assign anyone whose input you would like.
+
+Make sure to pull the most recent version of `master`
+
+```
+git checkout master
+git pull origin master
+
+
+git branch a-descriptive-branch-name
+git checkout a-descriptive-branch-name
+```
+
+Make changes to the code that address the issue.
+
+
+```
+git add src/main.py
+git commit -m "Some nice commit message"
+
+git push origin a-descriptive-branch-name
+```
+
+Create a pull request (PR) on github (https://github.com/r-b-g-b/clean-water-tool/pull/new/a-descriptive-branch-name).
+
+Describe in as much detail as possible what you did, unforseen obstacles, and anything else you think would be important to know for someone to evaluate your code. In the PR message, link to any new issues you created by typing #< issue number >. You can also say "Closes #< issue number >".
+
+Request any reviewers. When everyone is satisfied with the code, "Squash and merge."
+
+Checkout master and pull the new changes.
+
+```
+git checkout master
+git pull origin master
+```
+
+Repeat as needed!
+
+
 ## Project Organization
 
     ├── LICENSE
