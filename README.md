@@ -1,10 +1,40 @@
-safe_water_tool
-==============================
+# clean_water_tool
 
-Reporting Tool to Support Safe Drinking Water in California’s Disadvantaged Communities
+A reporting tool to support safe drinking water in California’s disadvantaged communities
 
-Project Organization
-------------
+
+## Getting started
+
+We use python virtual environments to standardize the software versions and make reproducible science easier. Cookiecutter-datascience supports two popular virtual environment platforms: `conda` and `virtualenv`. This README outlines how to proceed using the `conda` [virtual environments](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html), part of the [Anaconda python distribution](https://www.anaconda.com/distribution/).
+
+We also use `make` and to organize groups of commands, defined in `Makefile`.
+
+
+The following steps will 1) create and activate a virtual environment, 2) install the project requirements, 3) download the HR2W data.
+
+```
+make create_environment
+conda activate clean_water_tool
+
+make requirements  # install python modules in requirements.txt
+make data  # download source tables and store to data/raw and data/interim
+```
+
+Next you might want to launch a jupyter notebook and start exploring the data.
+
+```
+jupyter lab
+```
+
+
+When you're all done, you can deactivate the virtual environment.
+
+```
+conda deactivate
+```
+
+
+## Project Organization
 
     ├── LICENSE
     ├── Makefile           <- Makefile with commands like `make data` or `make train`
