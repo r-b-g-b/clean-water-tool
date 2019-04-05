@@ -3,6 +3,7 @@ import click
 import logging
 import pandas as pd
 import requests
+import os
 
 from src.config import (
     HR2W_EXCEEDANCE_URL, HR2W_RETURN_TO_COMPLIANCE_URL, DATA_DIRECTORY
@@ -17,6 +18,11 @@ def main():
     logger = logging.getLogger(__name__)
     logger.info('making final data set from raw data')
     data = requests.get(HR2W_EXCEEDANCE_URL)
+
+    if not os.path.exists(DATA_DIRECTORY / 'raw'):
+        os.makedirs(DATA_DIRECTORY / 'raw')
+    if not os.path.exists(DATA_DIRECTORY / 'interim'):
+        os.makedirs(DATA_DIRECTORY / 'interim')
 
     with open(DATA_DIRECTORY / 'raw' / 'hr2w_exceedance.xlsx', 'wb') as f:
         f.write(data.content)
