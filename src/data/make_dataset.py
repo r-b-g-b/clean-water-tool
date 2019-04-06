@@ -33,10 +33,10 @@ def main():
         f.write(data.content)
 
     df = pd.read_excel(DATA_DIRECTORY / 'raw' / 'hr2w_exceedance.xlsx')
-    df.to_csv(DATA_DIRECTORY / 'interim' / 'hr2w_exceedance.csv')
+    df.to_csv(DATA_DIRECTORY / 'interim' / 'hr2w_exceedance.csv', index=False)
 
     df = pd.read_excel(DATA_DIRECTORY / 'raw' / 'hr2w_return_to_compliance.xlsx')
-    df.to_csv(DATA_DIRECTORY / 'interim' / 'hr2w_return_to_compliance.csv')
+    df.to_csv(DATA_DIRECTORY / 'interim' / 'hr2w_return_to_compliance.csv', index=False)
 
 
 if __name__ == '__main__':
