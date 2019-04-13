@@ -48,9 +48,9 @@ def make_water_system_latlon():
     zpfile = zipfile.ZipFile(io.BytesIO(data.content))
 
     output_directory = Path(
-        DATA_DIRECTORY /
-        "raw" /
-        Path(urllib.parse.urlparse(WATER_SYSTEM_LOCATIONS_URL).path).stem
+        DATA_DIRECTORY
+        / "raw"
+        / Path(urllib.parse.urlparse(WATER_SYSTEM_LOCATIONS_URL).path).stem
     )
     output_directory.mkdir(parents=True, exist_ok=True)
 
@@ -78,8 +78,7 @@ def make_water_system_latlon():
     # write the GeoJSON file
     with open(DATA_DIRECTORY / "interim" / "water_system_latlon.geojson", "w") as f:
         f.write(
-            dumps({"type": "FeatureCollection", "features": features}, indent=2)
-            + "\n"
+            dumps({"type": "FeatureCollection", "features": features}, indent=2) + "\n"
         )
 
 
