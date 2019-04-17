@@ -8,8 +8,10 @@ coverage
 flake8
 geopandas
 jupyterlab
+matplotlib
 numpy
 pandas
+pandas-profiling
 plotly
 pyshp
 python-dotenv>=0.5.1
