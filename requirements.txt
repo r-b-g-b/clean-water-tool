@@ -5,6 +5,7 @@
 awscli
 click
 coverage
+descartes
 flake8
 geopandas
 jupyterlab
