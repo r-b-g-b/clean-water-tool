@@ -1,11 +1,6 @@
 # -*- coding: utf-8 -*-
-import shapefile
-from json import dumps
-import urllib
-from pathlib import Path
-import io
-import zipfile
 import click
+import io
 import logging
 import pandas as pd
 import requests
@@ -15,8 +10,10 @@ from src.config import (
     DATA_DIRECTORY,
     HR2W_EXCEEDANCE_URL,
     HR2W_RETURN_TO_COMPLIANCE_URL,
+    TULARE_LAKE_BASIN_SHP_PATH,
     WATER_SYSTEM_LOCATIONS_URL,
 )
+from src import utils
 
 
 def make_hr2w_data():
@@ -42,44 +39,17 @@ def make_hr2w_data():
     df.to_csv(DATA_DIRECTORY / "interim" / "hr2w_return_to_compliance.csv", index=False)
 
 
-def make_water_system_latlon():
+def make_water_system_locations():
     # from https://stackoverflow.com/questions/43119040/shapefile-into-geojson-conversion-python-3
     data = requests.get(WATER_SYSTEM_LOCATIONS_URL)
-    zpfile = zipfile.ZipFile(io.BytesIO(data.content))
 
-    output_directory = Path(
-        DATA_DIRECTORY
-        / "raw"
-        / Path(urllib.parse.urlparse(WATER_SYSTEM_LOCATIONS_URL).path).stem
-    )
-    output_directory.mkdir(parents=True, exist_ok=True)
+    output_path = DATA_DIRECTORY / "interim" / "water_system_locations.geojson"
+    utils.convert_shp_to_geojson(io.BytesIO(data.content), output_path)
 
-    zpfile.extractall(output_directory)
 
-    shp_filename = [
-        p.filename for p in zpfile.infolist() if p.filename.endswith(".shp")
-    ][0]
-
-    reader = shapefile.Reader(str(output_directory / shp_filename))
-    fields = reader.fields[1:]
-
-    field_names = [field[0] for field in fields]
-    features = []
-    for record in reader.shapeRecords():
-        atr = dict(zip(field_names, record.record))
-        features.append(
-            {
-                "type": "Feature",
-                "geometry": record.shape.__geo_interface__,
-                "properties": atr,
-            }
-        )
-
-    # write the GeoJSON file
-    with open(DATA_DIRECTORY / "interim" / "water_system_latlon.geojson", "w") as f:
-        f.write(
-            dumps({"type": "FeatureCollection", "features": features}, indent=2) + "\n"
-        )
+def make_tulare_lake_basin_location():
+    output_path = DATA_DIRECTORY / "interim" / "tulare_lake_basin.geojson"
+    utils.convert_shp_to_geojson(TULARE_LAKE_BASIN_SHP_PATH, output_path)
 
 
 @click.command()
@@ -92,8 +62,11 @@ def main():
     logger.info("making hr2w dataset")
     make_hr2w_data()
 
-    logger.info("making water system latitude/longitude dataset")
-    make_water_system_latlon()
+    logger.info("making water system location dataset")
+    make_water_system_locations()
+
+    logger.info("making Tulare Lake Basin location")
+    make_tulare_lake_basin_location()
 
 
 if __name__ == "__main__":

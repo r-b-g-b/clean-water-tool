@@ -3,7 +3,7 @@ import pandas as pd
 from src.config import DATA_DIRECTORY
 from src import utils
 
-logger = logging.getLogger()
+logger = logging.getLogger(__name__)
 
 
 def get_last_ended_action(group):
