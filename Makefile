@@ -7,7 +7,7 @@
 PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 BUCKET = [OPTIONAL] your-bucket-for-syncing-data (do not include 's3://')
 PROFILE = default
-PROJECT_NAME = clean_water_tool
+PROJECT_NAME = clean-water-tool
 PYTHON_INTERPRETER = python3
 
 ifeq (,$(shell which conda))
@@ -28,6 +28,10 @@ requirements: test_environment
 ## Make Dataset
 data: requirements
 	$(PYTHON_INTERPRETER) src/data/make_dataset.py
+
+## Make visualizations
+visualizations: data
+	$(PYTHON_INTERPRETER) src/visualization/visualize.py
 
 ## Delete all compiled Python files
 clean:
